@@ -128,7 +128,7 @@ FOUNDATION_EXPORT NSString * const BDBOAuth1OAuthCallbackParameter;
 /**
  *  OAuth access token.
  */
-@property (nonatomic, copy, readonly) BDBOAuth1Credential *accessToken;
+@property (nonatomic, copy) BDBOAuth1Credential *accessToken;
 
 
 /**

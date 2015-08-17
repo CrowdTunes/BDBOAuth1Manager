@@ -284,21 +284,23 @@ static NSDictionary *OAuthKeychainDictionaryForService(NSString *service) {
 #pragma mark OAuth Parameters
 - (NSDictionary *)OAuthParameters {
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[BDBOAuth1SignatureVersionParameter]     = @"1.0";
-    parameters[BDBOAuth1SignatureConsumerKeyParameter] = self.consumerKey;
-    parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
-    parameters[BDBOAuth1SignatureMethodParameter]      = @"HMAC-SHA1";
+    //parameters[BDBOAuth1SignatureVersionParameter]     = @"1.0";
+    if (!self.accessToken) {
+        parameters[BDBOAuth1SignatureConsumerKeyParameter] = self.consumerKey;
+    }
+    //parameters[BDBOAuth1SignatureTimestampParameter]   = [@(floor([[NSDate date] timeIntervalSince1970])) stringValue];
+    //parameters[BDBOAuth1SignatureMethodParameter]      = @"HMAC-SHA1";
 
-    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
-    CFRelease(uuid);
+//    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+//    CFUUIDBytes uuidBytes = CFUUIDGetUUIDBytes(uuid);
+//    CFRelease(uuid);
+//    
+//#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
+//    parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
+//#else
+//    parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
+//#endif
     
-#if (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000) || (defined(__MAC_OS_X_VERSION_MIN_REQUIRED) && __MAC_OS_X_VERSION_MIN_REQUIRED >= 1090)
-    parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64EncodedStringWithOptions:0];
-#else
-    parameters[BDBOAuth1SignatureNonceParameter] = [[NSData dataWithBytes:&uuidBytes length:sizeof(uuidBytes)] base64Encoding];
-#endif
-                                  
     return parameters;
 }
 
